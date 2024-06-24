@@ -1,5 +1,5 @@
 initSqlJs({
-    dbPath: '/student.db' 
+    dbPath: 'student.db' 
 })
 .then(db=>{
 refreshTable();
