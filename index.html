@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQLite in JS Example</title>
+    <script src="/sqliteinjs.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+    <body>
+        <h1>SQLite in JS CRUD Example</h1>
+        <button onclick="openModal('add')">Add Student</button>
+        <table id="studentsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Major</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    
+        <!-- Modal for Add/Edit Student -->
+        <div id="studentModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle">Add Student</h2>
+                <input type="hidden" id="studentId">
+                <input type="text" id="name" placeholder="Name">
+                <input type="number" id="age" placeholder="Age">
+                <input type="text" id="major" placeholder="Major">
+                <button onclick="saveStudent()">Save</button>
+            </div>
+        </div>
+</body>
+</html>
