@@ -1,5 +1,6 @@
+const dbName="student.db";
 initSqlJs({
-    dbPath: 'student.db' 
+    dbPath: dbName 
 })
 .then(db=>{
 refreshTable();
@@ -41,7 +42,7 @@ function closeModal() {
     document.getElementById("studentModal").style.display = "none";
 }
 
-function saveStudent() {
+ function saveStudent() {
     const id = document.getElementById("studentId").value;
     const name = document.getElementById("name").value;
     const age = document.getElementById("age").value;
@@ -61,6 +62,7 @@ function saveStudent() {
 
     closeModal();
     refreshTable();
+    window.saveDatabase('D:/sqlite in js/student.db');
 }
 
 function deleteStudent(id) {
