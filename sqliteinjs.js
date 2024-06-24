@@ -4,27 +4,26 @@
             // Load sql-wasm.js and initialize SQL.js
             const script = document.createElement('script');
             script.src = config.sqlJsPath || 'https://sql.js.org/dist/sql-wasm.js';
-            script.onload = () => {
-                window.initSqlJs({
+            script.onload =async () => {
+               const sqlPromise= window.initSqlJs({
                     locateFile: file => config.wasmPath || `https://sql.js.org/dist/${file}`
-                }).then(SQL => {
-                    // Fetch the SQLite database file
+                });
+
                     if (config.dbPath) {
-                        fetch(config.dbPath)
-                            .then(response => response.arrayBuffer())
-                            .then(buffer => {
-                                const db = new SQL.Database(new Uint8Array(buffer));
-                                global.sqliteDB = db;
-                                resolve(db);
-                            })
-                            .catch(reject);
-                    } else {
+                        const dataPromise = fetch(config.dbPath).then(res => res.arrayBuffer());
+                        const [SQL, buf] = await Promise.all([sqlPromise, dataPromise])
+                        const db = new SQL.Database(new Uint8Array(buf));
+                        global.sqliteDB = db;
+                        resolve(db);
+                    } 
+                    else {
                         // Create an empty database if no dbPath is provided
+                        const [SQL] = await Promise.all([sqlPromise])
                         const db = new SQL.Database();
                         global.sqliteDB = db;
                         resolve(db);
                     }
-                }).catch(reject);
+                
             };
             script.onerror = reject;
             document.head.appendChild(script);
